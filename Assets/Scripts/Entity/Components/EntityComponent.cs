@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Entity.Components
+namespace EntitySystem.Components
 {
     public class EntityComponent : MonoBehaviour
     {

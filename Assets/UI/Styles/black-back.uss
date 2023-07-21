@@ -1,0 +1,20 @@
+.black-back {
+    color: rgb(255, 255, 255);
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    top: 75%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-wrap: nowrap;
+    position: absolute;
+    right: 0;
+    left: 0;
+}
+
+.hidden {
+    display: none;
+    visibility: visible;
+    overflow: visible;
+}

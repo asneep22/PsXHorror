@@ -1,9 +1,9 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
-using Entity.Components;
+using EntitySystem.Components;
 
-namespace Entity
+namespace EntitySystem
 {
     public class Entity : MonoBehaviour
     {

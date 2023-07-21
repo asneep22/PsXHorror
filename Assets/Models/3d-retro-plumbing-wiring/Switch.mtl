@@ -1,0 +1,22 @@
+# Blender 3.4.1 MTL File: 'Switch.blend'
+# www.blender.org
+
+newmtl material.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd Switch-Texture.png
+
+newmtl material_0.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.643137 0.698039 0.733333
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2

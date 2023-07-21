@@ -1,25 +1,43 @@
-using Entity.Components;
+using EntitySystem.Components;
 using UnityEngine;
 
-public class Mover : EntityComponent, IInitializable, IMovable
+namespace EntitySystem.Components
 {
-    [SerializeField] private float _speed_fade_off_strength = 10f;
-    private Rigidbody _rigidbody;
-
-    public void Initialize()
+    public class Mover : EntityComponent, IInitializable, IMovable
     {
-        if (Entity.TryGetComponent(out Rigidbody rb))
+        [SerializeField] private float _speed_fade_off_strength = 10f;
+        private Rigidbody _rigidbody;
+
+        private bool _is_movement_locked;
+
+        public void Initialize()
         {
-            _rigidbody = rb;
-            return;
+            if (Entity.TryGetComponent(out Rigidbody rb))
+            {
+                _rigidbody = rb;
+                return;
+            }
+
+            throw new System.Exception($"''{Entity.name}'' doesn't has Rigidbody");
         }
 
-        throw new System.Exception($"''{Entity.name}'' doesn't has Rigidbody");
-    }
+        public virtual void Move(Vector3 new_direction, float speed)
+        {
+            if (_is_movement_locked)
+                return;
 
-    public virtual void Move(Vector3 new_direction, float speed)
-    {
-        Vector3 lerped_velocity = Vector3.Lerp(_rigidbody.velocity, new_direction, Time.fixedDeltaTime * _speed_fade_off_strength);
-        _rigidbody.velocity = lerped_velocity.normalized * speed;
+            Vector3 lerped_velocity = Vector3.Lerp(_rigidbody.velocity, new_direction, Time.fixedDeltaTime * _speed_fade_off_strength) * speed;
+            _rigidbody.velocity = new(lerped_velocity.x, _rigidbody.velocity.y, lerped_velocity.z);
+        }
+
+        public void LockMovement()
+        {
+            _is_movement_locked = true;
+        }
+
+        public void UnlockMovement()
+        {
+            _is_movement_locked = false;
+        }
     }
 }
