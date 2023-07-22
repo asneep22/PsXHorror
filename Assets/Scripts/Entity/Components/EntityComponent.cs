@@ -18,7 +18,7 @@ namespace EntitySystem.Components
             }
         }
 
-        private void Reset()
+        public virtual void Reset()
         {
             transform.name = GetType().Name;
         }

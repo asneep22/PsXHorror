@@ -18,6 +18,7 @@ namespace EntitySystem.Triggers
 
             entity.Get<Monologue>().StartNew(_monologue);
            _on_triggered?.Invoke();
+            gameObject.SetActive(false);
         }
     }
 }

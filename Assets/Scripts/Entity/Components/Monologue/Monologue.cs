@@ -14,7 +14,7 @@ namespace EntitySystem.Components
 
         public void StartNew(List<string> new_monologue)
         {
-            _on_started?.Invoke(new_monologue);
+            _on_started?.Invoke(new List<string>(new_monologue));
         }
 
         public void End()

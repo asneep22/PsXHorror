@@ -11,7 +11,7 @@ public class Menu : MonoBehaviour
 
     private VisualElement root;
 
-    public bool IsShowed { get; private set; }
+    public bool Is_showed { get; private set; }
 
     private void Awake()
     {
@@ -25,14 +25,14 @@ public class Menu : MonoBehaviour
     {
         Get<VisualElement>("Menu").RemoveFromClassList("hidden");
         _on_showed?.Invoke();
-        IsShowed = true;
+        Is_showed = true;
     }
 
     public virtual void Hide()
     {
         Get<VisualElement>("Menu").AddToClassList("hidden");
         _on_hided?.Invoke();
-        IsShowed = false;
+        Is_showed = false;
     }
 
     protected VisualElement Get<T>(string name) where T: VisualElement

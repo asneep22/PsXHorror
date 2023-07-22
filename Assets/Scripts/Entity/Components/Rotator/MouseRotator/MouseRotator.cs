@@ -10,7 +10,6 @@ namespace EntitySystem.Components
         [SerializeField] private float sens_x;
         [SerializeField] private float sens_y;
 
-        private Transform _orientation;
         private float rotation_x;
         private float rotation_y;
 

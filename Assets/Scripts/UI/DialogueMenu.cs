@@ -23,7 +23,7 @@ public class DialogueMenu : Menu
 
     public void Update()
     {
-        if (!IsShowed)
+        if (!Is_showed)
             return;
 
         if (!Input.GetMouseButtonDown(0))
