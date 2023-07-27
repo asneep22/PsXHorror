@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/UI/Styles/black-back.uss?fileID=7433441132597879392&amp;guid=73c49bc9b3fc3bf4d9ccf6242ba0b389&amp;type=3#black-back" />
+    <ui:VisualElement name="Root" style="position: absolute; left: 0; right: 0; bottom: 0; top: 75px;">
+        <ui:VisualElement name="Container" class="black-back">
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" mode="Vertical" touch-scroll-type="Elastic" style="flex-grow: 0; align-items: stretch; justify-content: flex-end; flex-basis: auto; flex-direction: column; flex-wrap: nowrap; visibility: visible;">
+                <ui:Label text="dialogue" display-tooltip-when-elided="true" name="Dialogue_label" enable-rich-text="true" usage-hints="None" style="flex-wrap: nowrap; flex-direction: column; align-items: center; justify-content: center; font-size: 24px; -unity-background-scale-mode: stretch-to-fill; background-color: rgba(0, 0, 0, 0); -unity-text-outline-color: rgb(0, 0, 0); color: rgb(255, 255, 255); width: 702px; -unity-text-align: middle-center; height: 10%; flex-grow: 1; flex-shrink: 1; position: relative; white-space: normal; -unity-background-image-tint-color: rgb(255, 255, 255); background-image: none; flex-basis: auto;" />
+            </ui:ScrollView>
+            <ui:Label text="press to continue" display-tooltip-when-elided="true" name="continue" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

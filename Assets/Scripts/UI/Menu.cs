@@ -4,34 +4,39 @@ using UnityEngine.UIElements;
 
 public class Menu : MonoBehaviour
 {
+    public UnityEvent On_showed;
+    public UnityEvent On_hided;
 
     [SerializeField] private bool _hide_on_start;
-    [SerializeField] private UnityAction _on_showed;
-    [SerializeField] private UnityAction _on_hided;
 
     private VisualElement root;
 
     public bool Is_showed { get; private set; }
 
-    private void Awake()
+    public virtual void Awake()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
+    }
 
+    public virtual void Start()
+    {
         if (_hide_on_start)
-            Get<VisualElement>("Menu").AddToClassList("hidden");
+            Hide();
+        Show();
+
     }
 
     public virtual void Show()
     {
-        Get<VisualElement>("Menu").RemoveFromClassList("hidden");
-        _on_showed?.Invoke();
+        Get<VisualElement>("Root").RemoveFromClassList("hidden");
+        On_showed?.Invoke();
         Is_showed = true;
     }
 
     public virtual void Hide()
     {
-        Get<VisualElement>("Menu").AddToClassList("hidden");
-        _on_hided?.Invoke();
+        Get<VisualElement>("Root").AddToClassList("hidden");
+        On_hided?.Invoke();
         Is_showed = false;
     }
 
