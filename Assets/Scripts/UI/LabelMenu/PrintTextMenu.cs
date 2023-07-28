@@ -58,6 +58,7 @@ public class PrintTextMenu : Menu
         base.Show();
         Texts = new(monologue);
         NextText(label);
+        print("asd");
     }
 
     private IEnumerator PrintText(Label label, string text)

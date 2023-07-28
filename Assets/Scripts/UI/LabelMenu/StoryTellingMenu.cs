@@ -13,7 +13,6 @@ public class StoryTellingMenu : PrintTextMenu
     {
         base.Awake();
         _text_label = (Label)Get<Label>(_label_name);
-        On_showed.AddListener(() => StartMonologue(_text_label, Texts));
     }
 
     public void Update()
@@ -24,9 +23,7 @@ public class StoryTellingMenu : PrintTextMenu
         if (!Input.GetMouseButtonDown(0))
             return;
 
-        if (Print_text_coroutine != null)
-            ShowPrintingText(_text_label);
-        else
+        if (Print_text_coroutine == null)
             NextText(_text_label);
     }
 }

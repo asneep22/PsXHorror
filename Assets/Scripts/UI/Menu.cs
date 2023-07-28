@@ -21,7 +21,11 @@ public class Menu : MonoBehaviour
     public virtual void Start()
     {
         if (_hide_on_start)
+        {
             Hide();
+            return;
+        }
+
         Show();
 
     }
