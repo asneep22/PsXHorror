@@ -5,7 +5,6 @@ namespace EntitySystem.Components
 
     public class MouseRotator : Rotator
     {
-
         [SerializeField] private float _sens_x = 15;
         [SerializeField] private float _sens_y = 15;
 
@@ -21,8 +20,8 @@ namespace EntitySystem.Components
 
         public void Update()
         {
-            float mouse_x = Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * _sens_x;
-            float mouse_y = Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * _sens_y;
+            float mouse_x = Input.GetAxisRaw("Mouse X") * Time.deltaTime * _sens_x;
+            float mouse_y = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * _sens_y;
 
             _rotation_y += mouse_x;
             _rotation_x -= mouse_y;

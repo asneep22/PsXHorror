@@ -24,7 +24,7 @@ namespace EntitySystem.Components
         public virtual void Move(Vector3 new_direction, float speed)
         {
             if (_is_movement_locked)
-                return;
+                new_direction = Vector3.zero;
 
             Vector3 lerped_velocity = Vector3.Lerp(_rigidbody.velocity, new_direction, Time.fixedDeltaTime * _speed_fade_off_strength) * speed;
             _rigidbody.velocity = new(lerped_velocity.x, _rigidbody.velocity.y, lerped_velocity.z);
