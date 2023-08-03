@@ -6,9 +6,11 @@ namespace EntitySystem.Components
     public class Mover : EntityComponent, IInitializable, IMovable
     {
         [SerializeField] private float _speed_fade_off_strength = 10f;
+        [SerializeField] private float _speed = 10f;
         private Rigidbody _rigidbody;
 
         private bool _is_movement_locked;
+        private Vector3 _current_velocity;
 
         public void Initialize()
         {
@@ -21,13 +23,13 @@ namespace EntitySystem.Components
             throw new System.Exception($"''{Entity.name}'' doesn't has Rigidbody");
         }
 
-        public virtual void Move(Vector3 new_direction, float speed)
+        public virtual void Move(Vector3 new_direction)
         {
             if (_is_movement_locked)
                 new_direction = Vector3.zero;
 
-            Vector3 lerped_velocity = Vector3.Lerp(_rigidbody.velocity, new_direction, Time.fixedDeltaTime * _speed_fade_off_strength) * speed;
-            _rigidbody.velocity = new(lerped_velocity.x, _rigidbody.velocity.y, lerped_velocity.z);
+            _current_velocity = Vector3.Lerp(_current_velocity, new_direction * _speed, Time.fixedDeltaTime * _speed_fade_off_strength);
+            _rigidbody.velocity = _current_velocity;
         }
 
         public void LockMovement()
