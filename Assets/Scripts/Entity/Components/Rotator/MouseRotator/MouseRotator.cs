@@ -5,9 +5,8 @@ namespace EntitySystem.Components
 
     public class MouseRotator : Rotator
     {
-        [SerializeField] private float _sens_x = 15;
-        [SerializeField] private float _sens_y = 15;
-
+        private float _sens_x;
+        private float _sens_y;
         private float _rotation_x;
         private float _rotation_y;
 
