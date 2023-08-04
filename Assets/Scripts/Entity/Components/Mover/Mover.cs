@@ -7,10 +7,13 @@ namespace EntitySystem.Components
     {
         [SerializeField] private float _speed_fade_off_strength = 10f;
         [SerializeField] private float _speed = 10f;
-        private Rigidbody _rigidbody;
 
-        private bool _is_movement_locked;
+        private Rigidbody _rigidbody;
         private Vector3 _current_velocity;
+        private bool _is_movement_locked;
+
+        public float Speed { get => _speed; }
+        public Rigidbody Rigidbody { get => _rigidbody; }
 
         public void Initialize()
         {

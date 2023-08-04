@@ -21,7 +21,19 @@ namespace EntitySystem.Components
             if (_lock_z)
                 rotation_z = 0;
 
-            _entity_transform.rotation = Quaternion.Euler(rotation_x, rotation_y, rotation_z);
+            _entity_transform.localRotation = Quaternion.Euler(rotation_x, rotation_y, rotation_z);
+        }
+
+        public virtual void AddRotate(float rotation_x, float rotation_y = 0, float rotation_z = 0)
+        {
+            if (_lock_x)
+                rotation_x = 0;
+            if (_lock_y)
+                rotation_y = 0;
+            if (_lock_z)
+                rotation_z = 0;
+
+            _entity_transform.Rotate(rotation_x, rotation_y, rotation_z);
         }
     }
 }
