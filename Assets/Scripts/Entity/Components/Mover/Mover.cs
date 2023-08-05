@@ -1,4 +1,5 @@
 using EntitySystem.Components;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace EntitySystem.Components
@@ -9,10 +10,11 @@ namespace EntitySystem.Components
         [SerializeField] private float _speed = 10f;
 
         private Rigidbody _rigidbody;
-        private Vector3 _current_velocity;
+        private Vector3 _current_direction;
         private bool _is_movement_locked;
+        private float _current_speed;
 
-        public float Speed { get => _speed; }
+        public float Speed { get => _current_speed; }
         public Rigidbody Rigidbody { get => _rigidbody; }
 
         public void Initialize()
@@ -29,10 +31,11 @@ namespace EntitySystem.Components
         public virtual void Move(Vector3 new_direction)
         {
             if (_is_movement_locked)
-                new_direction = Vector3.zero;
+                return;
 
-            _current_velocity = Vector3.Lerp(_current_velocity, new_direction * _speed, Time.fixedDeltaTime * _speed_fade_off_strength);
-            _rigidbody.velocity = _current_velocity;
+            float new_speed = new_direction.magnitude == 0 ? 0 : _speed;
+            _current_speed = Mathf.Lerp(_current_speed, new_speed, Time.fixedDeltaTime * _speed_fade_off_strength);
+            _rigidbody.velocity = new_direction * _current_speed;
         }
 
         public void LockMovement()
