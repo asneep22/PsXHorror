@@ -1,5 +1,6 @@
 using EntitySystem.Components;
 using NaughtyAttributes;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace EntitySystem.Components
@@ -10,7 +11,6 @@ namespace EntitySystem.Components
         [SerializeField] private float _speed = 10f;
 
         private Rigidbody _rigidbody;
-        private Vector3 _current_direction;
         private bool _is_movement_locked;
         private float _current_speed;
 
@@ -30,13 +30,16 @@ namespace EntitySystem.Components
 
         public virtual void Move(Vector3 new_direction)
         {
-            if (_is_movement_locked)
-                return;
-
             float new_speed = new_direction.magnitude == 0 ? 0 : _speed;
             _current_speed = Mathf.Lerp(_current_speed, new_speed, Time.fixedDeltaTime * _speed_fade_off_strength);
+
+            if (_is_movement_locked || new_direction.magnitude == 0)
+                return;
+
             _rigidbody.velocity = new_direction * _current_speed;
         }
+
+
 
         public void LockMovement()
         {

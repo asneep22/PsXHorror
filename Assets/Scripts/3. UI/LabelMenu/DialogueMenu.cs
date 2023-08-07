@@ -7,15 +7,6 @@ using UnityEngine.UIElements;
 
 public class DialogueMenu : PrintTextMenu
 {
-    [SerializeField] private string dialogue_label_name = "dialogue";
-
-    private Label _text_label;
-
-    public override void Awake()
-    {
-        base.Awake();
-        _text_label = (Label)Get<Label>(dialogue_label_name);
-    }
 
     public void Update()
     {
@@ -26,9 +17,9 @@ public class DialogueMenu : PrintTextMenu
             return;
 
         if (Print_text_coroutine != null)
-            ShowPrintingText(_text_label);
+            ShowPrintingText();
         else
-            NextText(_text_label);
+            NextText();
     }
 
     public void StartDialogue(List<string> dialogue_first, List<string> dialogue_second)

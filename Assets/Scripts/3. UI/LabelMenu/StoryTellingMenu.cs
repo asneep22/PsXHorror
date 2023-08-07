@@ -24,6 +24,6 @@ public class StoryTellingMenu : PrintTextMenu
             return;
 
         if (Print_text_coroutine == null)
-            NextText(_text_label);
+            NextText();
     }
 }
