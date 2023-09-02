@@ -19,11 +19,10 @@ public class PathPoint : Trigger
 
     [SerializeField] public Color _draw_color = Color.yellow;
 
-    [SerializeField, HideInInspector] private PathPoint _next_path_point;
+    [SerializeField] private PathPoint _next_path_point;
 
     public override void OnTriggerEnter(Collider other)
     {
-
         if (!other.TryGetComponent(out Entity entity))
             return;
 
@@ -35,6 +34,7 @@ public class PathPoint : Trigger
 
         entity.Get<PathMover>().gameObject.SetActive(true);
         entity.Get<PathMover>().SetPathPoint(this);
+        entity.transform.LookAt(_next_path_point.transform);
     }
 
     private void OnDrawGizmos()

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace EntitySystem.Components
 {
-    public class InputCharacterMover : Mover
+    public class InputMover : Mover
     {
         public void FixedUpdate()
         {

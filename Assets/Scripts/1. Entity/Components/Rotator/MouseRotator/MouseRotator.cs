@@ -36,7 +36,7 @@ namespace EntitySystem.Components
 
             _rotation_x = Mathf.Clamp(_rotation_x, -90f, 90f);
 
-            RotateTo(_rotation_x, _rotation_y);
+            RotateTo(_rotation_x, _rotation_y, 0);
         }
     }
 }

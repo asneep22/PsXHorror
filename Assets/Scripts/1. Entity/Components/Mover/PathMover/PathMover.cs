@@ -10,12 +10,20 @@ namespace EntitySystem.Components
 
         public void FixedUpdate()
         {
-            Move(_current_direction.normalized);
+            if (_current_direction != Vector3.zero)
+                Move(_current_direction.normalized);
         }
 
         public virtual void SetPathPoint(PathPoint path_point)
         {
-            _current_direction = path_point.NextPathPoint == null ? Vector3.zero : path_point.NextPathPoint.transform.position - path_point.transform.position;
+            if (path_point.NextPathPoint == null)
+            {
+                _current_direction = Vector3.zero;
+                return;
+            }
+            
+            Vector3 new_direction = path_point.NextPathPoint.transform.position - path_point.transform.position;
+            _current_direction = new_direction;
         }
     }
 }
