@@ -5,6 +5,8 @@ namespace EntitySystem.Components
 {
     public class Jumper : EntityComponent, IInitializable, IJumpable
     {
+        private GroundChecker _ground_checker;
+        private RigidbodyFaller _rigidbody_faller;
         [SerializeField] private float _strength = 100;
 
         private Rigidbody _rigidbody;
@@ -20,18 +22,35 @@ namespace EntitySystem.Components
 
         public void Initialize()
         {
-            if (Entity.TryGetComponent(out Rigidbody rb))
+            if (!Entity.TryGetComponent(out Rigidbody rb))
+                throw new System.Exception($"''{Entity.name}'' doesn't has Rigidbody");
+
+            if (!Entity.TryGet(out GroundChecker ground_checker))
             {
-                _rigidbody = rb;
-                return;
+                Destroy(gameObject);
+                throw new System.Exception($" add to ''{Entity.name}'' ground cheker. Jumper was deleted");
             }
 
-            throw new System.Exception($"''{Entity.name}'' doesn't has Rigidbody");
+            if (!Entity.TryGet(out RigidbodyFaller rigidbodyFaller))
+            {
+                Destroy(gameObject);
+                throw new System.Exception($" add to ''{Entity.name}'' ground cheker. Jumper was deleted");
+            }
+
+            _rigidbody = rb;
+            _ground_checker = ground_checker;
+            _rigidbody_faller = rigidbodyFaller;
         }
 
         public virtual void Jump()
         {
-            _rigidbody.AddForce(Vector3.up * Strength, ForceMode.Impulse);
+            if (!_ground_checker.IsOnGround)
+                return;
+
+            _ground_checker.BeginCheck();
+            Vector3 velocity = _rigidbody.velocity;
+            velocity.y = Strength;
+            _rigidbody_faller.SetYVelocity(Strength);
         }
     }
 }

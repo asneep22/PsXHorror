@@ -1,3 +1,4 @@
+using Helpers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
@@ -8,6 +9,7 @@ public class Menu : MonoBehaviour
     public UnityEvent On_hided;
 
     [SerializeField] private bool _hide_on_start;
+    [SerializeField] private float _hide_speed = 1;
 
     private VisualElement root;
 
@@ -22,24 +24,26 @@ public class Menu : MonoBehaviour
     {
         if (_hide_on_start)
         {
-            Hide();
+            StartHide();
             return;
         }
 
-        Show();
+        StartShow();
 
     }
 
-    public virtual void Show()
+    public virtual void StartShow()
     {
-        Get<VisualElement>("Root").RemoveFromClassList("hidden");
+        VisualElement visual_element = Get<VisualElement>("Root");
+        visual_element.ToggleInClassList("pop-fade");
         On_showed?.Invoke();
         Is_showed = true;
     }
 
-    public virtual void Hide()
+    public virtual void StartHide()
     {
-        Get<VisualElement>("Root").AddToClassList("hidden");
+        VisualElement visual_element = Get<VisualElement>("Root");
+        visual_element.ToggleInClassList("pop-fade");
         On_hided?.Invoke();
         Is_showed = false;
     }

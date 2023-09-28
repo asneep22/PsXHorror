@@ -9,8 +9,8 @@ public class PrintTextMenu : Menu
 {
     public Coroutine Print_text_coroutine
     {
-        get;
-        private set;
+        get => _print_text_coroutine;
+        private set => _print_text_coroutine = value;
     }
     public List<string> Texts
     {
@@ -26,10 +26,10 @@ public class PrintTextMenu : Menu
 
     [SerializeField] private float _print_char_time = .05f;
     [SerializeField] private List<string> _texts = new();
-    [SerializeField] private UnityEvent _on_texts_ended;
     [SerializeField] private float _skip_text_time = 2;
     [SerializeField] private string printable_label_name = "dialogue";
 
+    private UnityEvent _on_texts_ended;
     private Coroutine _print_text_coroutine;
     private Coroutine _skip_text_corutine;
     private Label _text_label;
@@ -43,7 +43,6 @@ public class PrintTextMenu : Menu
     protected void NextText()
     {
         _print_text_coroutine = CoroutineExtension.Stop(this, _print_text_coroutine);
-        _text_label.text = "";
 
         if (Texts.Count > 0)
         {
@@ -52,29 +51,31 @@ public class PrintTextMenu : Menu
         }
 
         _on_texts_ended?.Invoke();
-        base.Hide();
+        base.StartHide();
     }
 
     protected void ShowPrintingText()
     {
         _print_text_coroutine = CoroutineExtension.Stop(this, _print_text_coroutine);
-        _text_label.text = _texts[0];
+        _text_label.text = Texts[0];
         Texts.RemoveAt(0);
 
         _skip_text_corutine = CoroutineExtension.Stop(this, _skip_text_corutine);
         _skip_text_corutine = StartCoroutine(SkipText());
     }
 
-    public void StartMonologue(List<string> monologue)
+    public void StartMonologue(List<string> monologue, UnityEvent on_ended)
     {
-        base.Show();
+        base.StartShow();
+        _on_texts_ended = on_ended;
         Texts = new(monologue);
         NextText();
     }
 
-    private IEnumerator PrintText( string text)
+    private IEnumerator PrintText(string text)
     {
         int char_index = 0;
+        _text_label.text = "";
 
         while (_text_label.text != text)
         {
@@ -93,6 +94,8 @@ public class PrintTextMenu : Menu
     private IEnumerator SkipText()
     {
         yield return new WaitForSeconds(_skip_text_time);
-        NextText();
+
+        if (Is_showed)
+            NextText();
     }
 }

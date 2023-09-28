@@ -65,19 +65,35 @@ namespace EntitySystem
             throw new System.Exception($"EntityComponent ''{typeof(T)}'' doesn't exist on ''{name}'' object");
         }
 
+        public bool TryGet<T>(out T out_component)
+        {
+            out_component = default;
+
+            foreach (EntityComponent component in _components)
+                if (component.TryGetComponent(out T tComponent))
+                {
+                    out_component = tComponent;
+                    return true;
+                }
+
+            return false;
+        }
+
         #endregion
 
         #region CheckComponent
 
         public bool Check<T>()
         {
+
             foreach (var component in _components)
             {
                 try
                 {
-                    if (component.TryGetComponent(out T _))
+                    if (component.TryGetComponent(out T comp))
+                    {
                         return true;
-
+                    }
                 }
                 catch (System.Exception)
                 {

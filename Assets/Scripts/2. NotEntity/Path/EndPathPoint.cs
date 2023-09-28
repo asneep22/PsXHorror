@@ -32,8 +32,9 @@ public class EndPathPoint : PathPoint
         On_movement_ended?.Invoke();
     }
 
-    private void OnDrawGizmos()
+    public override void OnDrawGizmos()
     {
+        base.OnDrawGizmos();
         Gizmos.color = _draw_color;
         Gizmos.DrawSphere(transform.position, 3);
     }

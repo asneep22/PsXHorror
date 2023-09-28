@@ -9,17 +9,12 @@ namespace EntitySystem.Components
 
     public class Monologue : EntityComponent
     {
-        [SerializeField] private UnityEvent<List<string>> _on_started;
-        [SerializeField] private UnityEvent _on_ended;
+        [SerializeField] private UnityEvent<List<string>, UnityEvent> _on_started;
+        [SerializeField] private UnityEvent<List<string>> _on_ended;
 
-        public void StartNew(List<string> new_monologue)
+        public void StartNew(List<string> new_monologue, UnityEvent on_texts_ended)
         {
-            _on_started?.Invoke(new List<string>(new_monologue));
-        }
-
-        public void End()
-        {
-            _on_ended?.Invoke();
+            _on_started?.Invoke(new List<string>(new_monologue), on_texts_ended);
         }
     }
 }

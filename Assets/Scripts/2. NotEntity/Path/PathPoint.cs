@@ -29,16 +29,20 @@ public class PathPoint : Trigger
         if (!entity.Check<PathMover>())
             return;
 
-        if (entity.Check<Mover>())
-            entity.Get<Mover>().gameObject.SetActive(false);
+        if (entity.Check<RigidbodyGravityMover>())
+            entity.Get<RigidbodyGravityMover>().gameObject.SetActive(false);
+
+        if (_next_path_point != null)
+            entity.transform.LookAt(_next_path_point.transform);
 
         entity.Get<PathMover>().gameObject.SetActive(true);
         entity.Get<PathMover>().SetPathPoint(this);
-        entity.transform.LookAt(_next_path_point.transform);
+
     }
 
-    private void OnDrawGizmos()
+    public override void OnDrawGizmos()
     {
+        base.OnDrawGizmos();
         Gizmos.color = _draw_color;
         Gizmos.DrawSphere(transform.position, 3);
 

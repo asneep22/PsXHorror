@@ -1,12 +1,14 @@
 using EntitySystem.Components;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace EntitySystem.Triggers
 {
     public class MonologueTrigger : Trigger
     {
         [SerializeField] private List<string> _monologue;
+        [SerializeField] private UnityEvent _on_ended;
 
         public override void OnTriggerEnter(Collider other)
         {
@@ -16,9 +18,11 @@ namespace EntitySystem.Triggers
             if (!entity.Check<Monologue>())
                 return;
 
-            entity.Get<Monologue>().StartNew(_monologue);
-           _on_triggered?.Invoke();
+            entity.Get<Monologue>().StartNew(_monologue, _on_ended);
+           On_triggered?.Invoke();
             gameObject.SetActive(false);
         }
     }
+
+
 }

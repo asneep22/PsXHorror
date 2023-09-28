@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace EntitySystem.Components
 {
-    public class PathMover : Mover
+    public class PathMover : RigidbodyGravityMover
     {
         private Vector3 _current_direction;
 
         public void FixedUpdate()
         {
             if (_current_direction != Vector3.zero)
-                Move(_current_direction.normalized);
+                Move(_current_direction.normalized, Speed);
         }
 
         public virtual void SetPathPoint(PathPoint path_point)

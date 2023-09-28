@@ -13,8 +13,8 @@
     left: 0;
 }
 
-.hidden {
-    display: none;
-    visibility: visible;
-    overflow: visible;
+.pop-fade {
+    opacity: 0;
+    transition-duration: 1s;
+    transition-delay: 0s;
 }

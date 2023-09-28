@@ -7,7 +7,9 @@ namespace EntitySystem.Components
 {
     public class Handler : EntityComponent, IHandlerable
     {
-        public UnityEvent On_handled { get; }
+        [SerializeField] private UnityEvent _on_handled;
+
+        public UnityEvent On_handled { get => _on_handled; }
 
         public virtual void Handle(Entity from)
         {

@@ -9,9 +9,6 @@ namespace EntitySystem.Components
         private float _sens_y;
         private float _rotation_x;
         private float _rotation_y;
-        private float _last_rotation_x;
-        private float _last_rotation_y;
-
 
         private void Start()
         {

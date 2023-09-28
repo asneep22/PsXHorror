@@ -4,13 +4,14 @@ using UnityEngine;
 
 namespace EntitySystem.Components
 {
-    public class InputCarMover : Mover
+    public class InputCarMover : RigidbodyGravityMover
     {
         public void FixedUpdate()
         {
             float direction_z = Input.GetAxis("Vertical");
             Vector3 direction = Entity.transform.forward * direction_z;
-            Move(direction);
+            Movement_direction = Entity.transform.forward;
+            Move(direction, Speed);
         }
     }
 }

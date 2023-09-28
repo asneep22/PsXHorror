@@ -6,14 +6,14 @@ namespace EntitySystem.Components
     {
 
         [SerializeField] private float _rotate_speed = 10;
-        private Mover _mover;
+        private RigidbodyGravityMover _mover;
 
         public void Start()
         {
-            if (!Entity.Check<Mover>())
+            if (!Entity.Check<RigidbodyGravityMover>())
                 return;
 
-            _mover = Entity.Get<Mover>();
+            _mover = Entity.Get<RigidbodyGravityMover>();
         }
 
         private void FixedUpdate()
@@ -23,7 +23,6 @@ namespace EntitySystem.Components
 
             float direction_x = Input.GetAxis("Horizontal");
             RotateTo(0, direction_x, 0, _mover.Rigidbody.velocity.magnitude);
-
         }
 
         public override void RotateTo(float rotation_x, float rotation_y = 0, float rotation_z = 0, float _rotate_speed = 10)

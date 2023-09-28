@@ -1,6 +1,3 @@
-using UnityEngine;
-using UnityEngine.Events;
-
 namespace EntitySystem.Components
 {
     public class InteractHandler : Handler, IInteractable

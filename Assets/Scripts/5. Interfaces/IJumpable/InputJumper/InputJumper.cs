@@ -11,6 +11,7 @@ namespace EntitySystem.Components
             if (Input.GetKeyDown(KeyCode.Space))
                 Jump();
         }
+
     }
 }
 
