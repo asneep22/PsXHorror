@@ -35,7 +35,8 @@ public class Menu : MonoBehaviour
     public virtual void StartShow()
     {
         VisualElement visual_element = Get<VisualElement>("Root");
-        visual_element.ToggleInClassList("pop-fade");
+        visual_element.RemoveFromClassList("pop-fade");
+
         On_showed?.Invoke();
         Is_showed = true;
     }
@@ -43,7 +44,7 @@ public class Menu : MonoBehaviour
     public virtual void StartHide()
     {
         VisualElement visual_element = Get<VisualElement>("Root");
-        visual_element.ToggleInClassList("pop-fade");
+        visual_element.AddToClassList("pop-fade");
         On_hided?.Invoke();
         Is_showed = false;
     }

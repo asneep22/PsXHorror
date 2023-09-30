@@ -3,12 +3,17 @@ using UnityEngine;
 namespace EntitySystem.Components
 {
 
-    public class MouseRotator : Rotator
+    public class MouseRotator : Rotator, IInitializable
     {
         private float _sens_x;
         private float _sens_y;
         private float _rotation_x;
         private float _rotation_y;
+
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
 
         private void Start()
         {
@@ -28,10 +33,8 @@ namespace EntitySystem.Components
             if (mouse_x == 0 && mouse_y == 0)
                 return;
 
-            _rotation_y += mouse_x;
-            _rotation_x -= mouse_y;
-
-            _rotation_x = Mathf.Clamp(_rotation_x, -90f, 90f);
+            _rotation_y = Entity.transform.localEulerAngles.y + mouse_x;
+            _rotation_x = Entity.transform.localEulerAngles.x - mouse_y;
 
             RotateTo(_rotation_x, _rotation_y, 0);
         }

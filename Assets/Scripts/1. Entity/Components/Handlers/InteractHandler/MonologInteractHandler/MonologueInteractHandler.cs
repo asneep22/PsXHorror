@@ -1,4 +1,4 @@
-using System.Collections;
+using EntitySystem.Components.DialogueSystem;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,7 +7,7 @@ namespace EntitySystem.Components
 {
     public class MonologueInteractHandler : InteractHandler
     {
-        [SerializeField] private List<string> _monolog_texts = new();
+        [SerializeField] private List<Sayer> _monolog_texts = new();
         [SerializeField] private UnityEvent _on_texts_ended;
 
         public override void Handle(Entity from)

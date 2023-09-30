@@ -1,3 +1,6 @@
+using EntitySystem;
+using EntitySystem.Components;
+using EntitySystem.Components.DialogueSystem;
 using Helpers;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,24 +15,24 @@ public class PrintTextMenu : Menu
         get => _print_text_coroutine;
         private set => _print_text_coroutine = value;
     }
-    public List<string> Texts
+    public List<Sayer> Sayers
     {
-        get { return _texts; }
+        get { return _sayers; }
         private set
         {
             if (value.Count == 0)
                 return;
 
-            _texts = new(value);
+            _sayers = new(value);
         }
     }
 
     [SerializeField] private float _print_char_time = .05f;
-    [SerializeField] private List<string> _texts = new();
+    [SerializeField] private List<Sayer> _sayers = new();
     [SerializeField] private float _skip_text_time = 2;
     [SerializeField] private string printable_label_name = "dialogue";
 
-    private UnityEvent _on_texts_ended;
+    private UnityEvent _on_sayers_ended;
     private Coroutine _print_text_coroutine;
     private Coroutine _skip_text_corutine;
     private Label _text_label;
@@ -44,31 +47,35 @@ public class PrintTextMenu : Menu
     {
         _print_text_coroutine = CoroutineExtension.Stop(this, _print_text_coroutine);
 
-        if (Texts.Count > 0)
+        if (Sayers.Count > 0)
         {
-            _print_text_coroutine = StartCoroutine(PrintText(_texts[0]));
+            _print_text_coroutine = StartCoroutine(PrintText(_sayers[0].Text));
+
+            foreach(LookAtRotator rotator in _sayers[0].Rotators)
+                rotator.EnableLookAt(_sayers[0].Look_target);
+
             return;
         }
 
-        _on_texts_ended?.Invoke();
+        _on_sayers_ended?.Invoke();
         base.StartHide();
     }
 
     protected void ShowPrintingText()
     {
-        _print_text_coroutine = CoroutineExtension.Stop(this, _print_text_coroutine);
-        _text_label.text = Texts[0];
-        Texts.RemoveAt(0);
+        if (_sayers.Count == 0)
+            return;
 
-        _skip_text_corutine = CoroutineExtension.Stop(this, _skip_text_corutine);
-        _skip_text_corutine = StartCoroutine(SkipText());
+        _sayers[0].DisableLookAtAll();
+        _text_label.text = Sayers[0].Text;
+        Sayers.RemoveAt(0);
     }
 
-    public void StartMonologue(List<string> monologue, UnityEvent on_ended)
+    public void StartMonologue(List<Sayer> monologue, UnityEvent on_ended)
     {
         base.StartShow();
-        _on_texts_ended = on_ended;
-        Texts = new(monologue);
+        _on_sayers_ended = on_ended;
+        Sayers = new(monologue);
         NextText();
     }
 
@@ -84,11 +91,12 @@ public class PrintTextMenu : Menu
             yield return new WaitForSeconds(_print_char_time);
         }
 
-        _texts.RemoveAt(0);
         Print_text_coroutine = CoroutineExtension.Stop(this, Print_text_coroutine);
 
         _skip_text_corutine = CoroutineExtension.Stop(this, _skip_text_corutine);
         _skip_text_corutine = StartCoroutine(SkipText());
+
+        ShowPrintingText();
     }
 
     private IEnumerator SkipText()

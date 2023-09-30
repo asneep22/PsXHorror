@@ -7,7 +7,7 @@ namespace EntitySystem.Components
         [SerializeField] private bool _lock_x, _lock_y, _lock_z;
         private Transform _entity_transform;
 
-        public void Initialize()
+        public virtual void Initialize()
         {
             _entity_transform = Entity.transform;
         }
@@ -15,7 +15,7 @@ namespace EntitySystem.Components
         public virtual void RotateTo(float rotation_x, float rotation_y = 0, float rotation_z = 0)
         {
             Vector3 new_rotation = UpdateLockedRotation(rotation_x, rotation_y, rotation_z);
-            _entity_transform.localRotation = Quaternion.Euler(new_rotation.x, new_rotation.y, new_rotation.z);
+            _entity_transform.localEulerAngles = new Vector3(new_rotation.x, new_rotation.y, new_rotation.z);
         }
 
         public virtual void RotateTo(float rotation_x, float rotation_y = 0, float rotation_z = 0, float _rotate_speed = 10)

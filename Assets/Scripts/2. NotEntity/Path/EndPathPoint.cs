@@ -24,11 +24,12 @@ public class EndPathPoint : PathPoint
 
     private IEnumerator TrackingVelocity(Rigidbody rb)
     {
-        while (rb.velocity.magnitude > 0)
+        while (rb.velocity.sqrMagnitude > 1f)
         {
             yield return null;
         }
 
+        print("ended");
         On_movement_ended?.Invoke();
     }
 
