@@ -52,7 +52,7 @@ public class PrintTextMenu : Menu
             _print_text_coroutine = StartCoroutine(PrintText(_sayers[0].Text));
 
             foreach(LookAtRotator rotator in _sayers[0].Rotators)
-                rotator.EnableLookAt(_sayers[0].Look_target);
+                rotator.BeginLookAt(_sayers[0].Look_target, _sayers[0].Time);
 
             return;
         }
@@ -66,7 +66,6 @@ public class PrintTextMenu : Menu
         if (_sayers.Count == 0)
             return;
 
-        _sayers[0].DisableLookAtAll();
         _text_label.text = Sayers[0].Text;
         Sayers.RemoveAt(0);
     }

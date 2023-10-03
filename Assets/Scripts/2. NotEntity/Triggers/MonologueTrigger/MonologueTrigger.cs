@@ -19,7 +19,7 @@ namespace EntitySystem.Triggers
             if (!entity.Check<Monologue>())
                 return;
 
-            entity.Get<Monologue>().StartNew(_monologue, _on_ended);
+           entity.Get<Monologue>().StartNew(_monologue, _on_ended);
            On_triggered?.Invoke();
            gameObject.SetActive(false);
         }

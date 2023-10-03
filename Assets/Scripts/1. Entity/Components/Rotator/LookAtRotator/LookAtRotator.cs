@@ -9,19 +9,13 @@ namespace EntitySystem.Components
     {
         [SerializeField] private float _speed = 3;
 
-        private bool _is_enabled;
+ 
         private Transform _target;
 
-        public virtual void EnableLookAt(Transform target)
+        public virtual void BeginLookAt(Transform target, float time)
         {
-            _is_enabled = true;
             _target = target;
-            CoroutineExtension.RepeatUntil(this, () => _is_enabled == true, () => LookAt());
-        }
-
-        public void DisableLookAt()
-        {
-            _is_enabled = false;
+            CoroutineExtension.RepeatFixedTime(this, time, () => LookAt());
         }
 
         private void LookAt()

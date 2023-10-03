@@ -35461,8 +35461,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _monologue:
-  - _text: "\u0427\u0435\u0440\u0442! \u041B\u0430\u0434\u043D\u043E... \u042D\u0442\u043E
-      \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u0430\u044F \u043C\u0435\u0440\u0430"
+  - _text: "\u0427\u0435\u0440\u0442! \u042D\u0442\u043E... \u0412\u0441\u0435\u0433\u043E
+      \u043B\u0438\u0448\u044C \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u0430\u044F
+      \u043C\u0435\u0440\u0430"
     _rotators: []
     _look_target: {fileID: 0}
   _on_ended:
