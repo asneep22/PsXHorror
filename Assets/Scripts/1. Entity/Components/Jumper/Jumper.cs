@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace EntitySystem.Components
 {
-    public class Jumper : EntityComponent, IInitializable, IJumpable
+    public class Jumper : EntityComponent, IInitializable
     {
-        private GroundChecker _ground_checker;
-        private RigidbodyFaller _rigidbody_faller;
         [SerializeField] private float _strength = 100;
+        [SerializeField] private Jumpers _jumper_on_start;
+        private IJumpable _jumpable;
+        private GroundChecker _ground_checker;
 
         private Rigidbody _rigidbody;
 
@@ -18,6 +19,11 @@ namespace EntitySystem.Components
             {
                 _strength = value < 0 ? 0 : value;
             }
+        }
+
+        public enum Jumpers
+        {
+            InputCharacterJumper
         }
 
         public void Initialize()
@@ -31,26 +37,33 @@ namespace EntitySystem.Components
                 throw new System.Exception($" add to ''{Entity.name}'' ground cheker. Jumper was deleted");
             }
 
-            if (!Entity.TryGet(out RigidbodyFaller rigidbodyFaller))
-            {
-                Destroy(gameObject);
-                throw new System.Exception($" add to ''{Entity.name}'' ground cheker. Jumper was deleted");
-            }
+            ResetJumper();
+
+
 
             _rigidbody = rb;
             _ground_checker = ground_checker;
-            _rigidbody_faller = rigidbodyFaller;
         }
 
-        public virtual void Jump()
+        private void Update()
         {
-            if (!_ground_checker.IsOnGround)
-                return;
+            Jump(_jumpable);
+        }
 
-            _ground_checker.BeginCheck();
-            Vector3 velocity = _rigidbody.velocity;
-            velocity.y = Strength;
-            _rigidbody_faller.SetYVelocity(Strength);
+        public void Jump(IJumpable jumpable)
+        {
+            if (_ground_checker && _ground_checker.IsOnGround)
+                jumpable.Jump(_rigidbody, Strength);
+        }
+
+        public void ResetJumper()
+        {
+            switch (_jumper_on_start)
+            {
+                case Jumpers.InputCharacterJumper:
+                    _jumpable = new InputCharacterJumper();
+                    break;
+            }
         }
     }
 }

@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace EntitySystem.Components
 {
-    public class InputCarMover : RigidbodyGravityMover
+    public class InputCarMover : IMovable
     {
-        public void FixedUpdate()
+        public void Move(Rigidbody movable_rb, float speed)
         {
             float direction_z = Input.GetAxis("Vertical");
-            Vector3 direction = Entity.transform.forward * direction_z;
-            Movement_direction = Entity.transform.forward;
-            Move(direction, Speed);
+            Vector3 dir = movable_rb.transform.forward * direction_z;
+            movable_rb.AddForce(dir.normalized * speed);
+            movable_rb.velocity = Vector3.ClampMagnitude(movable_rb.velocity, speed);
         }
     }
 }

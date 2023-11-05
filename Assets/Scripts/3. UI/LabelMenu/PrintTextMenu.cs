@@ -15,22 +15,23 @@ public class PrintTextMenu : Menu
         get => _print_text_coroutine;
         private set => _print_text_coroutine = value;
     }
-    public List<Sayer> Sayers
+    public List<DialogueNode> DialogueNodes
     {
-        get { return _sayers; }
+        get { return _dialogue_nodes; }
         private set
         {
             if (value.Count == 0)
                 return;
 
-            _sayers = new(value);
+            _dialogue_nodes = new(value);
         }
     }
 
     [SerializeField] private float _print_char_time = .05f;
-    [SerializeField] private List<Sayer> _sayers = new();
+    [SerializeField] private List<DialogueNode> _dialogue_nodes = new();
     [SerializeField] private float _skip_text_time = 2;
     [SerializeField] private string printable_label_name = "dialogue";
+    private Rotator _rotator;
 
     private UnityEvent _on_sayers_ended;
     private Coroutine _print_text_coroutine;
@@ -47,15 +48,18 @@ public class PrintTextMenu : Menu
     {
         _print_text_coroutine = CoroutineExtension.Stop(this, _print_text_coroutine);
 
-        if (Sayers.Count > 0)
+        if (DialogueNodes.Count > 0)
         {
-            _print_text_coroutine = StartCoroutine(PrintText(_sayers[0].Text));
+            _print_text_coroutine = StartCoroutine(PrintText(_dialogue_nodes[0].Text));
 
-            foreach(LookAtRotator rotator in _sayers[0].Rotators)
-                rotator.BeginLookAt(_sayers[0].Look_target, _sayers[0].Time);
+            if (_dialogue_nodes[0].Look_target == null)
+                _rotator.ResetRotator();
+            else
+                _rotator.ChangeRotator(new LookAtRotator(_dialogue_nodes[0].Look_target));
 
             return;
         }
+
 
         _on_sayers_ended?.Invoke();
         base.StartHide();
@@ -63,18 +67,21 @@ public class PrintTextMenu : Menu
 
     protected void ShowPrintingText()
     {
-        if (_sayers.Count == 0)
+        if (_dialogue_nodes.Count == 0)
             return;
 
-        _text_label.text = Sayers[0].Text;
-        Sayers.RemoveAt(0);
+        _text_label.text = DialogueNodes[0].Text;
+        DialogueNodes.RemoveAt(0);
     }
 
-    public void StartMonologue(List<Sayer> monologue, UnityEvent on_ended)
+    public void StartMonologue(List<DialogueNode> monologue, UnityEvent on_ended, Rotator rotator)
     {
         base.StartShow();
+
+        _rotator = rotator;
+
         _on_sayers_ended = on_ended;
-        Sayers = new(monologue);
+        DialogueNodes = new(monologue);
         NextText();
     }
 

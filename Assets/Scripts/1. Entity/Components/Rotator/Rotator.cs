@@ -1,46 +1,55 @@
+using EntitySystem.Components.Rotators;
 using UnityEngine;
 
 namespace EntitySystem.Components
 {
-    public class Rotator : EntityComponent, IInitializable, IRotatable 
+    public class Rotator : EntityComponent, IInitializable 
     {
         [SerializeField] private bool _lock_x, _lock_y, _lock_z;
+        [SerializeField] private Rotators _start_rotator;
         private Transform _entity_transform;
+        private IRotatable _rotatable;
+
+        public enum Rotators
+        {
+            Null,
+            InputMouseRotator
+        }
+
+        private void Start()
+        {
+            ResetRotator();
+        }
 
         public virtual void Initialize()
         {
             _entity_transform = Entity.transform;
         }
 
-        public virtual void RotateTo(float rotation_x, float rotation_y = 0, float rotation_z = 0)
+        public void Update()
         {
-            Vector3 new_rotation = UpdateLockedRotation(rotation_x, rotation_y, rotation_z);
-            _entity_transform.localEulerAngles = new Vector3(new_rotation.x, new_rotation.y, new_rotation.z);
+            Rotate(_rotatable);
         }
 
-        public virtual void RotateTo(float rotation_x, float rotation_y = 0, float rotation_z = 0, float _rotate_speed = 10)
+        public void ResetRotator()
         {
-            Vector3 new_rotation = UpdateLockedRotation(rotation_x, rotation_y, rotation_z);
-            _entity_transform.localRotation = Quaternion.Euler(new_rotation.x, new_rotation.y * _rotate_speed, new_rotation.z);
+            switch (_start_rotator)
+            {
+                case Rotators.InputMouseRotator:
+                    _rotatable = new InputMouseRotator(SettingsManager.Instance.Mouse_settings.Sens_x, SettingsManager.Instance.Mouse_settings.Sens_y);
+                    break;
+                default:
+                    break;
+            }
         }
 
-        public virtual void AddRotate(float rotation_x, float rotation_y = 0, float rotation_z = 0)
-        {
-            Vector3 new_rotation = UpdateLockedRotation(rotation_x, rotation_y, rotation_z);
-            _entity_transform.Rotate(new_rotation.x, new_rotation.y, new_rotation.z);
-        }
+        private void Rotate(IRotatable rotatable) {
+            if (rotatable == null)
+                return;
 
-        private Vector3 UpdateLockedRotation(float rotation_x, float rotation_y = 0, float rotation_z = 0)
-        {
-            if (_lock_x)
-                rotation_x = 0;
-            if (_lock_y)
-                rotation_y = 0;
-            if (_lock_z)
-                rotation_z = 0;
+            rotatable.Rotate(_entity_transform);
+        } 
 
-            return new Vector3(rotation_x, rotation_y, rotation_z);
-        }
-
+        public void ChangeRotator(IRotatable new_rotatable) => _rotatable = new_rotatable;
     }
 }

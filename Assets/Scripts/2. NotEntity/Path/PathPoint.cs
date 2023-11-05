@@ -17,8 +17,6 @@ public class PathPoint : Trigger
         }
     }
 
-    [SerializeField] public Color _draw_color = Color.yellow;
-
     [SerializeField] private PathPoint _next_path_point;
 
     public override void OnTriggerEnter(Collider other)
@@ -26,25 +24,24 @@ public class PathPoint : Trigger
         if (!other.TryGetComponent(out Entity entity))
             return;
 
-        if (!entity.Check<PathMover>())
+        if (!entity.TryGet(out Mover mover))
             return;
 
-        if (entity.Check<RigidbodyGravityMover>())
-            entity.Get<RigidbodyGravityMover>().gameObject.SetActive(false);
+        mover.ChangeMovable(new PathMover(this));
 
-        if (_next_path_point != null)
-            entity.transform.LookAt(_next_path_point.transform);
+        if (!entity.TryGet(out Rotator rotator))
+            return;
 
-        entity.Get<PathMover>().gameObject.SetActive(true);
-        entity.Get<PathMover>().SetPathPoint(this);
+        rotator.ChangeRotator(new LookAtRotator(NextPathPoint?.transform, 3));
+
+/*        entity.Get<PathMover>().gameObject.SetActive(true);
+        entity.Get<PathMover>().SetPathPoint(this);*/
 
     }
 
     public override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        Gizmos.color = _draw_color;
-        Gizmos.DrawSphere(transform.position, 3);
 
         if (_next_path_point == null)
             return;

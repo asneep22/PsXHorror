@@ -1,29 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace EntitySystem.Components
 {
-    public class PathMover : RigidbodyGravityMover
+    public class PathMover : IMovable
     {
-        private Vector3 _current_direction;
-
-        public void FixedUpdate()
+        private PathPoint _current_point;
+        public PathPoint Current_point
         {
-            if (_current_direction != Vector3.zero)
-                Move(_current_direction.normalized, Speed);
+            get
+            {
+                return _current_point;
+            }
+            set
+            {
+                if (value != null) _current_point = value;
+            }
         }
 
-        public virtual void SetPathPoint(PathPoint path_point)
+        public PathMover(PathPoint currentPoint) => Current_point = currentPoint;
+
+        public void Move(Rigidbody movable_rb, float speed)
         {
-            if (path_point.NextPathPoint == null)
+            if (_current_point is EndPathPoint)
             {
-                _current_direction = Vector3.zero;
+                /*movable_rb.GetComponent<Entity>().Get<Mover>().ResetMovable();*/
                 return;
             }
-            
-            Vector3 new_direction = path_point.NextPathPoint.transform.position - path_point.transform.position;
-            _current_direction = new_direction;
+
+            Vector3 dir = (_current_point.NextPathPoint.transform.position - _current_point.transform.position).normalized;
+            movable_rb.velocity = dir * speed;
         }
     }
 }

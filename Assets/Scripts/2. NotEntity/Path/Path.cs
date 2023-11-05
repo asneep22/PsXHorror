@@ -1,6 +1,3 @@
-using EntitySystem;
-using EntitySystem.Components;
-using EntitySystem.Triggers;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -11,6 +8,11 @@ public class Path : MonoBehaviour
         if (transform.childCount == 0)
             return;
 
+    }
+
+    public PathPoint[] GetPathPoints()
+    {
+        return GetComponentsInChildren<PathPoint>();
     }
 
     [Button]

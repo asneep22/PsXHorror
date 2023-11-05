@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public interface IRotatable
+public interface IRotatable : IInitializable
 {
-    public void RotateTo(float rotation_x, float rotation_y, float rotation_z);
-    public void RotateTo(float rotation_x, float rotation_y, float rotation_z, float rotate_speed);
+    public void Rotate(Transform rotatable_obj);
 }

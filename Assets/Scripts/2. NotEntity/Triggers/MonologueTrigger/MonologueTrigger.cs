@@ -8,7 +8,7 @@ namespace EntitySystem.Triggers
 {
     public class MonologueTrigger : Trigger
     {
-        [SerializeField] private List<Sayer> _monologue;
+        [SerializeField] private List<DialogueNode> _monologue;
         [SerializeField] private UnityEvent _on_ended;
 
         public override void OnTriggerEnter(Collider other)

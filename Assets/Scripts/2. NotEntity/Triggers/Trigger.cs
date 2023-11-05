@@ -10,6 +10,8 @@ namespace EntitySystem.Triggers
         [SerializeField] private Color _color = new(0.46f, 1, 0.2971698f, .25f);
         [SerializeField] protected UnityEvent On_triggered;
 
+        public Color Color => _color;
+
         public void Reset()
         {
             _box_collider = GetComponent<BoxCollider>();

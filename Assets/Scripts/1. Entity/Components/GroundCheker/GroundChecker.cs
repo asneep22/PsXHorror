@@ -18,9 +18,9 @@ namespace EntitySystem.Components
         public float CheckTime { get => _check_time; }
         public bool IsOnGround { get => _is_on_ground; }
 
-        private void Start()
+        private void Update()
         {
-            BeginCheck();
+            ConfirmGround();
         }
 
         private void OnDrawGizmos()
@@ -29,18 +29,10 @@ namespace EntitySystem.Components
             Gizmos.DrawSphere(transform.position, _radius);
         }
 
-        public void BeginCheck()
-        {
-            _is_on_ground = false;
-            CoroutineExtension.RepeatUntil(this, () => _is_on_ground == false, () => ConfirmGround(), _check_time);
-        }
-
         private void ConfirmGround()
         {
             Collider[] overlapped = Physics.OverlapSphere(transform.position, _radius, layer);
-
-            if (overlapped.Length > 0)
-                _is_on_ground = true;
+            _is_on_ground = overlapped.Length > 0;
         }
     }
 }

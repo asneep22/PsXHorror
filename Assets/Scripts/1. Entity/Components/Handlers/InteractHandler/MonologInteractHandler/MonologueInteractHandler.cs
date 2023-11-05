@@ -7,7 +7,7 @@ namespace EntitySystem.Components
 {
     public class MonologueInteractHandler : InteractHandler
     {
-        [SerializeField] private List<Sayer> _monolog_texts = new();
+        [SerializeField] private List<DialogueNode> _monolog_texts = new();
         [SerializeField] private UnityEvent _on_texts_ended;
 
         public override void Handle(Entity from)

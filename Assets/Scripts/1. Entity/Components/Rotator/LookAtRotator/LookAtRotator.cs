@@ -1,27 +1,31 @@
-using Helpers;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace EntitySystem.Components
 {
-    public class LookAtRotator : EntityComponent
+    public class LookAtRotator : IRotatable
     {
-        [SerializeField] private float _speed = 3;
-
- 
         private Transform _target;
+        private float _rotate_speed;
 
-        public virtual void BeginLookAt(Transform target, float time)
+        public LookAtRotator(Transform target = null, float rotate_speed = 3)
         {
             _target = target;
-            CoroutineExtension.RepeatFixedTime(this, time, () => LookAt());
+            _rotate_speed = rotate_speed;
         }
 
-        private void LookAt()
+        public void Initialize()
         {
-            var targetRotation = Quaternion.LookRotation(_target.position - Entity.transform.position);
-            Entity.transform.rotation = Quaternion.Slerp(Entity.transform.rotation, targetRotation, _speed * Time.deltaTime);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        public void Rotate(Transform rotatable_obj)
+        {
+            if (!_target)
+                return;
+            
+            var targetRotation = Quaternion.LookRotation(_target.position - rotatable_obj.position);
+            rotatable_obj.rotation = Quaternion.Slerp(rotatable_obj.rotation, targetRotation, _rotate_speed * Time.deltaTime);
         }
     }
 }
